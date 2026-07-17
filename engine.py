@@ -62,8 +62,9 @@ def run_decision_engine(structured_data, min_cibil, max_foir):
         risk_level = "HIGH"
         
     # Risk Score (0-100)
-    risk_score = 100 - foir + ((cibil - 300) / 10)
-    risk_score = min(max(risk_score, 0), 100)
+    cibil_health = min((cibil / min_cibil) * 50, 50)
+    foir_health = min((max_foir / foir) * 50, 50) if foir > 0 else 50
+    risk_score = round(cibil_health + foir_health, 1)
     
     return {
         "foir_calculated": round(foir, 2),
